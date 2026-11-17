@@ -1,0 +1,29 @@
+# 이 파일을 wrangler.toml 로 복사해 값을 채운다: cp wrangler.toml.example wrangler.toml
+# wrangler.toml 은 저장소에 올리지 않는다(.gitignore).
+
+# Worker 이름. 배포 주소(https://<worker-name>.<하위도메인>.workers.dev)에 들어간다
+name = "<worker-name>"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+[[d1_databases]]
+binding = "DB"                                # 코드가 쓰는 이름이므로 바꾸지 않는다
+database_name = "<db-name>"                   # npx wrangler d1 create <db-name> 에 쓴 이름
+database_id = "<wrangler d1 create 출력값>"   # d1 create 가 출력한 database_id
+
+# INVITE_CODE 는 secret 이다: npx wrangler secret put INVITE_CODE
+[vars]
+# 새 공간을 만들 수 있는 앱 식별자 목록(쉼표로 구분). 한 Worker 가 여러 앱을 받을 수 있다
+ALLOWED_APPS = "my-app"
+# 항목 하나(암호화된 상태)의 최대 바이트. 약 256 KB
+MAX_ITEM_BYTES = "262144"
+# 공간 하나의 전체 저장 바이트. 5 MB
+MAX_SPACE_BYTES = "5242880"
+# 서버에 만들 수 있는 공간 수. 모든 앱이 함께 쓴다
+MAX_SPACES = "60"
+# 공간 하나의 최대 항목 수
+MAX_ITEMS_PER_SPACE = "1000"
+# 공간 하나의 하루 쓰기 횟수(UTC 기준)
+MAX_DAILY_WRITES = "300"
+# 삭제 기록(tombstone)을 보관하는 일수
+TOMBSTONE_DAYS = "30"

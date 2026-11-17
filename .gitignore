@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+# 실제 배포 설정(database_id 등)은 저장소에 넣지 않는다. 견본은 server/wrangler.toml.example
+server/wrangler.toml
+*.log

@@ -1,0 +1,32 @@
+{
+  "name": "sync-kit",
+  "version": "0.1.0",
+  "description": "Cloudflare Worker + D1 기반 종단간 암호화 항목 동기화 키트(서버, 클라이언트 코어, 참고 구현)",
+  "type": "module",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./handler": { "types": "./dist/handler.d.ts", "import": "./dist/handler.js" },
+    "./testing": { "types": "./dist/testing.d.ts", "import": "./dist/testing.js" }
+  },
+  "files": ["dist", "server", "examples", "docs"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "prepare": "node scripts/build.mjs --if-present"
+  },
+  "dependencies": {
+    "fflate": "^0.8.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261117.1",
+    "@types/node": "^26.6.6",
+    "esbuild": "^0.28.0",
+    "fake-indexeddb": "^6.2.6",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0",
+    "wrangler": "^4.163.0"
+  }
+}
