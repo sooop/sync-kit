@@ -72,3 +72,8 @@ md-works 의 UI 인프라(modal, motion, tooltip)에 의존하므로 그대로 �
 - `연결`(다른 기기의 키): 키 입력은 `groupKeyInput` 으로 4자씩 끊어 보인다. 공백·소문자는 자동으로 정리된다.
 - 키 복사: `navigator.clipboard` 를 못 쓰면 키를 펼쳐 보이고 선택해 직접 복사하게 한다.
 - 연결 해제: 이 기기의 키와 설정만 지운다. 항목은 남고 서버와 다른 기기의 데이터는 그대로다. 해제 뒤 `clearSyncMeta()` 로 메타를 지운다.
+
+## 주소 자동 완성·QR
+
+- Worker 주소 칸은 이름만 입력해도 `expandWorkerUrl(입력, Worker 이름)`(sync-kit 코어)으로 `https://<Worker 이름>.<이름>.workers.dev` 로 완성한다. 앱은 자기 Worker 이름만 넘기면 된다.
+- 동기화 키는 QR 로도 볼 수 있다(모바일 입력용). QR 생성은 `qrcode-generator` 를 쓰며, 코어가 아닌 UI 쪽 선택 의존성이다.

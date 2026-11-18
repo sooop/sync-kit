@@ -71,3 +71,15 @@ export function groupKeyInput(raw: string): string {
     .slice(0, 26);
   return s.match(/.{1,4}/g)?.join('-') ?? '';
 }
+
+/**
+ * Worker 주소 자동 완성: 이름만(영문·숫자·하이픈) 입력하면 `https://<workerName>.<이름>.workers.dev` 로 완성한다.
+ * 점·콜론·슬래시가 들어 있으면(이미 주소 형태) 그대로 두고, 스킴 없이 `.workers.dev` 로 끝나면 https:// 만 붙인다.
+ * @param workerName 앱의 Worker 이름(wrangler.toml 의 name). 예: 'md-works-sync'
+ */
+export function expandWorkerUrl(raw: string, workerName: string): string {
+  const s = raw.trim();
+  if (/^[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$/.test(s)) return `https://${workerName}.${s.toLowerCase()}.workers.dev`;
+  if (/^[A-Za-z0-9.-]+\.workers\.dev(?:[/?#].*)?$/i.test(s)) return `https://${s}`;
+  return s;
+}

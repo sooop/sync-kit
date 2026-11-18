@@ -61,3 +61,18 @@ describe('groupKeyInput', () => {
     expect(groupKeyInput('---')).toBe('');
   });
 });
+
+import { expandWorkerUrl } from '../src/syncLabels';
+describe('expandWorkerUrl', () => {
+  it('이름만 입력하면 workers.dev 주소로 완성한다', () => {
+    expect(expandWorkerUrl(' Soooprmx ', 'md-works-sync')).toBe('https://md-works-sync.soooprmx.workers.dev');
+  });
+  it('스킴 없는 workers.dev 주소에는 https:// 만 붙인다', () => {
+    expect(expandWorkerUrl('a.b.workers.dev', 'x')).toBe('https://a.b.workers.dev');
+  });
+  it('이미 주소이면 그대로 둔다', () => {
+    expect(expandWorkerUrl('https://x.example.com', 'x')).toBe('https://x.example.com');
+    expect(expandWorkerUrl('http://localhost:8787', 'x')).toBe('http://localhost:8787');
+    expect(expandWorkerUrl('', 'x')).toBe('');
+  });
+});

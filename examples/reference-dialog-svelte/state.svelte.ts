@@ -2,6 +2,7 @@
 // 설정은 localStorage 'works.sync'({workerUrl, syncKey, inviteCode?, enabled})에만 둔다.
 // 동기화 키·Worker 주소·초대 코드는 번들·내보내기·백업에 절대 포함하지 않는다(backupState 의 텔레그램 토큰과 같은 원칙).
 import { bundleHost } from '../bundle/host';
+import { expandWorkerUrl } from '../sync/syncLabels';
 import { generateSyncKey, normalizeSyncKey, formatSyncKey } from './keys';
 import type { SyncAdapter, SyncConfig, SyncEngine, SyncMetaStore, SyncStatus } from './protocol';
 
@@ -137,10 +138,11 @@ export function notifyLocalChange(): void {
 }
 
 // ---- 연결 ----
-const URL_ERR = 'Worker 주소를 https:// 로 시작하는 주소로 입력하세요 (예: https://md-works-sync.내이름.workers.dev)';
+const WORKER_NAME = 'md-works-sync'; // 앱의 Worker 이름(wrangler.toml 의 name)
+const URL_ERR = 'Worker 주소를 https:// 로 시작하는 주소나 이름만 입력하세요 (예: 내이름 또는 https://md-works-sync.내이름.workers.dev)';
 
 function normalizeWorkerUrl(input: string): string {
-  const s = input.trim().replace(/\/+$/, '');
+  const s = expandWorkerUrl(input, WORKER_NAME).replace(/\/+$/, '');
   if (!s) throw new SyncInputError('workerUrl', 'Worker 주소를 입력하세요');
   let u: URL;
   try { u = new URL(s); } catch { throw new SyncInputError('workerUrl', URL_ERR); }
